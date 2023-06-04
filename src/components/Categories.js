@@ -1,5 +1,6 @@
 import React from "react";
-import styled, {css} from "styled-components";
+import styled from "styled-components";
+import { NavLink } from 'react-router-dom';
 
 // 카테고리 배열생성
 const categories = [
@@ -43,37 +44,43 @@ const CategoriesBlock = styled.div`
         overflow-x: auto;
     }
 `;
-const Category = styled.div`
+
+const Category = styled(NavLink)`
     font-size: 1.125rem;
     cursor: pointer;
     white-space: pre;
     text-decoration: none;
     color: inherit;
     padding-bottom: 0.25rem;
+
     &:hover {
         color: #495057;
     }
-    ${props =>
-        props.active && css`
-            font-weight: 600;
-            border-bottom: 2px solid #22B8CF;
-            color; #22B8CF;
-            &:hover {
-                color: #3BC9DB;
-            }
-        `}
+
+    &.active {
+        font-weight: 600;
+        border-bottom: 2px solid #22b8cf;
+        color; #22b8cf;
+        &:hover {
+            color: #3bc9db;
+        }
+    }
+
     & + & {
         margin-left: 1rem;
     }
 `;
-const Categories = ({ onSelect, category}) => {
+
+const Categories = () => {
     return (
         <CategoriesBlock>
             {categories.map(v => (
-                <Category
+
+                <Category 
                     key={v.name}
-                    active={category === v.name}
-                    onClick={() => onSelect(v.name)}
+                    activeClassName="active"
+                    exact={v.name === 'all'}
+                    to={v.name === 'all' ? '/' : `${v.name}`}
                 >
                     {v.text}
                 </Category>
@@ -81,4 +88,5 @@ const Categories = ({ onSelect, category}) => {
         </CategoriesBlock>
     );
 };
+
 export default Categories;
